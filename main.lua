@@ -1,11 +1,14 @@
 require "player"
 require "player_controller"
 require "projectiles"
+require "gun"
 
 function love.load()
   world = love.physics.newWorld(0,0,true)
   projectiles = Projectiles.new()
-  player = Player.new(370,600, world, projectiles)
+  gun = Gun.new(world,projectiles)
+  player = Player.new(370,600)
+  player:attachGun(gun)
   playerController = PlayerController.new(player)
 
   -- HAX
@@ -19,6 +22,7 @@ end
 
 function love.update(dt)
   playerController:update(dt)
+  player:update(dt) -- FIXME: This will be redudant when gun coords are done via physics
   world:update(dt)
 end
 

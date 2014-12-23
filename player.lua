@@ -1,16 +1,15 @@
 require "projectile"
 Player = {}
 
-function Player.new(x,y,world,projectiles)
+function Player.new(x,y)
   local self = {}
   self.xOrigin = x
   self.yOrigin = y
-  self.world = world
-  self.projectiles = projectiles
   self.health = 100
   self.xSpeed = 1100
   self.ySpeed = 800
   self.scale = 20
+  self.gun = nil
   setmetatable(self, {__index = Player})
   return self
 end
@@ -54,8 +53,15 @@ function Player:getHeight()
   return self.scale
 end
 
+function Player:attachGun(gun)
+  self.gun = gun
+end
+
 function Player:shoot()
-  projectile = Projectile.new(self.xOrigin, self.yOrigin, self.world)
-  projectile:fire()
-  self.projectiles:addProjectile(projectile)
+  self.gun:fire()
+end
+
+function Player:update(dt)
+  -- FIXME: Convert the gun and player to physics objects and weld them together
+  self.gun:updateCoodinates(self.xOrigin+self.scale/2, self.yOrigin)
 end
