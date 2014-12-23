@@ -11,6 +11,8 @@ function love.load()
   player:attachGun(gun)
   playerController = PlayerController.new(player)
 
+  drawing_register:addDrawable(player)
+
   -- HAX
   static = {}
   static.b = love.physics.newBody(world, 400,400, "static") -- "static" makes it not move
@@ -27,7 +29,6 @@ function love.update(dt)
 end
 
 function love.draw()
-  player:draw()
   drawing_register:drawRegisteredObjects()
   love.graphics.polygon("line", static.b:getWorldPoints(static.s:getPoints()))
 end
