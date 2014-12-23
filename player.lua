@@ -55,7 +55,7 @@ function Player:getHeight()
 end
 
 function Player:shoot()
-  projectile = Projectile.new(self.xOrigin, self.xOrigin, self.world)
+  projectile = Projectile.new(self.xOrigin, self.yOrigin, self.world)
   projectile:fire()
   self.projectiles:addProjectile(projectile)
 end
