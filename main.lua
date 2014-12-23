@@ -1,12 +1,12 @@
 require "player"
 require "player_controller"
-require "projectiles"
+require "drawing_register"
 require "gun"
 
 function love.load()
   world = love.physics.newWorld(0,0,true)
-  projectiles = Projectiles.new()
-  gun = Gun.new(world,projectiles)
+  drawing_register = DrawingRegister.new()
+  gun = Gun.new(world,drawing_register)
   player = Player.new(370,600)
   player:attachGun(gun)
   playerController = PlayerController.new(player)
@@ -28,6 +28,6 @@ end
 
 function love.draw()
   player:draw()
-  projectiles:draw()
+  drawing_register:drawRegisteredObjects()
   love.graphics.polygon("line", static.b:getWorldPoints(static.s:getPoints()))
 end
