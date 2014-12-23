@@ -9,7 +9,6 @@ end
 
 function DrawingRegister:addDrawable(drawable)
   table.insert(self.drawables, drawable)
-  print(tostring(self.drawables[2]))
 end
 
 function DrawingRegister:drawRegisteredObjects()
