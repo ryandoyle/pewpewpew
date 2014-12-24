@@ -6,6 +6,7 @@ function Projectile.new(xStart,yStart,world)
   self.body:setMass(10)
   self.shape = love.physics.newRectangleShape(1, 10)
   self.fixture = love.physics.newFixture(self.body, self.shape)
+  self.body:setBullet(true)
   setmetatable(self, {__index = Projectile})
   return self
 end

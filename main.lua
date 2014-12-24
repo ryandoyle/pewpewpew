@@ -7,7 +7,7 @@ function love.load()
   world = love.physics.newWorld(0,0,true)
   drawing_register = DrawingRegister.new()
   gun = Gun.new(world,drawing_register)
-  player = Player.new(370,600)
+  player = Player.new(370,600, world)
   player:attachGun(gun)
   playerController = PlayerController.new(player)
 
@@ -23,9 +23,8 @@ function love.load()
 end
 
 function love.update(dt)
-  playerController:update(dt)
-  player:update(dt) -- FIXME: This will be redudant when gun coords are done via physics
   world:update(dt)
+  playerController:update(dt)
 end
 
 function love.draw()

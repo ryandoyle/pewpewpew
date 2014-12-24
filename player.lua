@@ -1,7 +1,7 @@
 require "projectile"
 Player = {}
 
-function Player.new(x,y)
+function Player.new(x,y,world)
   local self = {}
   self.xOrigin = x
   self.yOrigin = y
@@ -10,6 +10,10 @@ function Player.new(x,y)
   self.ySpeed = 800
   self.scale = 20
   self.gun = nil
+  self.gunJoint = nil
+  self.body = love.physics.newBody(world, self.xOrigin, self.yOrigin, "kinematic")
+  self.shape = love.physics.newPolygonShape(0, self.scale, self.scale/2, 0, self.scale, self.scale)
+  self.fixture = love.physics.newFixture(self.body, self.shape)
   setmetatable(self, {__index = Player})
   return self
 end
@@ -18,50 +22,34 @@ function Player:draw()
   love.graphics.setLineWidth(2)
   love.graphics.setLineStyle("smooth")
   love.graphics.setColor(0,255,0,200)
-  love.graphics.polygon("line", self.xOrigin, self.yOrigin+self.scale, self.xOrigin+(self.scale/2), self.yOrigin, self.xOrigin+self.scale, self.yOrigin+self.scale)
+  love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 end
 
 function Player:moveLeft(dt)
-  if self.xOrigin > 0 then
-    self.xOrigin = self.xOrigin - (self.xSpeed * dt)
-  end
+  self.body:setLinearVelocity(-self.xSpeed,0)
 end
 
 function Player:moveRight(dt)
-  if (self.xOrigin + self:getWidth()) < love.window.getWidth() then
-    self.xOrigin = self.xOrigin + (self.xSpeed * dt)
-  end
+  self.body:setLinearVelocity(self.xSpeed,0)
 end
 
 function Player:moveUp(dt)
-  if self.yOrigin > 0 then
-    self.yOrigin = self.yOrigin - (self.ySpeed * dt)
-  end
+  self.body:setLinearVelocity(0,-self.ySpeed)
 end
 
 function Player:moveDown(dt)
-  if (self.yOrigin + self:getHeight()) < love.window.getHeight() then
-    self.yOrigin = self.yOrigin + (self.ySpeed * dt)
-  end
+  self.body:setLinearVelocity(0,self.ySpeed)
 end
 
-function Player:getWidth()
-  return self.scale
-end
-
-function Player:getHeight()
-  return self.scale
+function Player:stopMovement()
+  self.body:setLinearVelocity(0,0)
 end
 
 function Player:attachGun(gun)
   self.gun = gun
+  self.gunJoint = love.physics.newWeldJoint(self.body, self.gun:getBody(), 0, 0, 0, 0, false)
 end
 
 function Player:shoot()
   self.gun:fire()
-end
-
-function Player:update(dt)
-  -- FIXME: Convert the gun and player to physics objects and weld them together
-  self.gun:updateCoodinates(self.xOrigin+self.scale/2, self.yOrigin)
 end

@@ -2,12 +2,13 @@ Gun = {}
 
 function Gun.new(world,drawing_register)
   local self = {}
-  self.xOrigin = nil
-  self.yOrigin = nil
+  self.xOrigin = 100
+  self.yOrigin = 100
   self.world = world
   self.drawing_register = drawing_register
   self.fireRate = 3
   self.fireCount = 0
+  self.body = love.physics.newBody(self.world, self.xOrigin, self.yOrigin, "kinematic")
   setmetatable(self, {__index = Gun})
   return self
 end
@@ -23,7 +24,6 @@ function Gun:fire()
   end
 end
 
-function Gun:updateCoodinates(x,y)
-  self.xOrigin = x
-  self.yOrigin = y
+function Gun:getBody()
+  return self.body
 end
