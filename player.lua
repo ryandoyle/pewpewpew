@@ -3,15 +3,13 @@ Player = {}
 
 function Player.new(x,y,world)
   local self = {}
-  self.xOrigin = x
-  self.yOrigin = y
   self.health = 100
   self.xSpeed = 1100
   self.ySpeed = 800
   self.scale = 20
   self.gun = nil
-  self.gunJoint = nil
-  self.body = love.physics.newBody(world, self.xOrigin, self.yOrigin, "kinematic")
+  self.gunFixture = nil
+  self.body = love.physics.newBody(world, x, y, "kinematic")
   self.shape = love.physics.newPolygonShape(0, self.scale, self.scale/2, 0, self.scale, self.scale)
   self.fixture = love.physics.newFixture(self.body, self.shape)
   setmetatable(self, {__index = Player})
@@ -47,7 +45,8 @@ end
 
 function Player:attachGun(gun)
   self.gun = gun
-  self.gunJoint = love.physics.newWeldJoint(self.body, self.gun:getBody(), 0, 0, 0, 0, false)
+  self.gunFixture = love.physics.newFixture(self.body, self.gun:getShape())
+  self.gun:setGunBody(self.body)
 end
 
 function Player:shoot()
