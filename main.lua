@@ -3,6 +3,9 @@ require "player_controller"
 require "drawing_register"
 require "gun"
 
+debugWorldDraw = require("debugWorldDraw")
+
+
 function love.load()
   world = love.physics.newWorld(0,0,true)
   drawing_register = DrawingRegister.new()
@@ -23,11 +26,19 @@ function love.load()
 end
 
 function love.update(dt)
+  require("lovebird").update()
   world:update(dt)
   playerController:update(dt)
 end
 
 function love.draw()
+  debugWorldDraw(world, 0,0, 700, 800)
   drawing_register:drawRegisteredObjects()
   love.graphics.polygon("line", static.b:getWorldPoints(static.s:getPoints()))
+end
+
+function love.keypressed(key, unicode)
+  if key == "d" then
+    debug.debug()
+  end
 end
