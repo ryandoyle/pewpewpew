@@ -9,7 +9,8 @@ function Player.new(x,y,world)
   self.scale = 20
   self.gun = nil
   self.gunFixture = nil
-  self.body = love.physics.newBody(world, x, y, "kinematic")
+  self.body = love.physics.newBody(world, x, y, "dynamic")
+  self.body:setFixedRotation(true)
   self.shape = love.physics.newPolygonShape(0, self.scale, self.scale/2, 0, self.scale, self.scale)
   self.fixture = love.physics.newFixture(self.body, self.shape)
   setmetatable(self, {__index = Player})
@@ -46,7 +47,7 @@ end
 function Player:attachGun(gun)
   self.gun = gun
   self.gunFixture = love.physics.newFixture(self.body, self.gun:getShape())
-  self.gun:setGunBody(self.body)
+  self.gun:setShipBody(self.body)
 end
 
 function Player:shoot()

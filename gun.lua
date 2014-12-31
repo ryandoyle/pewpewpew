@@ -13,9 +13,9 @@ function Gun.new(world,drawing_register)
 end
 
 function Gun:fire()
-  -- FIXME: This does not take delta time into account
+  -- FIXME: This is shit
   if self.fireCount == self.fireRate then
-    local x, y = self:getPosition()
+    local x, y = self.shipBody:getPosition()
     local projectile = Projectile.new(x, y, self.world)
     projectile:fire()
     self.drawing_register:addDrawable(projectile)
@@ -29,10 +29,6 @@ function Gun:getShape()
   return self.shape
 end
 
-function Gun:setGunBody(body)
-  self.body = body
-end
-
-function Gun:getPosition()
-  return self.body:getPosition()
+function Gun:setShipBody(shipBody)
+  self.shipBody = shipBody
 end
