@@ -1,3 +1,4 @@
+require "projectile"
 Gun = {}
 
 function Gun.new(world,drawing_register)

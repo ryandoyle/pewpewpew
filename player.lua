@@ -1,4 +1,3 @@
-require "projectile"
 Player = {}
 
 function Player.new(x,y,world)
