@@ -16,7 +16,7 @@ function Gun:fire()
   -- FIXME: This is shit
   if self.fireCount == self.fireRate then
     local x, y = self.shipBody:getPosition()
-    local projectile = Projectile.new(x, y, self.world)
+    local projectile = Projectile.new(x, y, self.world, self.drawing_register)
     projectile:fire()
     self.drawing_register:addDrawable(projectile)
     self.fireCount = 0

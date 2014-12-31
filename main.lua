@@ -9,6 +9,7 @@ debugWorldDraw = require("debugWorldDraw")
 
 function love.load()
   world = love.physics.newWorld(0,0,true)
+  world:setCallbacks(beginContact, endContact, preSolve, postSolve)
   drawing_register = DrawingRegister.new()
   boundary = Boundary.new(700, 800, world)
   gun = Gun.new(world,drawing_register)
@@ -23,7 +24,7 @@ function love.load()
   static.b = love.physics.newBody(world, 400,400, "static") -- "static" makes it not move
   static.s = love.physics.newRectangleShape(200,50)         -- set size to 200,50 (x,y)
   static.f = love.physics.newFixture(static.b, static.s)
-  static.f:setUserData("Block")
+  --static.f:setUserData("Block")
 
 end
 
@@ -42,5 +43,16 @@ end
 function love.keypressed(key, unicode)
   if key == "d" then
     debug.debug()
+  end
+end
+
+function beginContact(fixtureA, fixtureB, contact)
+  local entityA = fixtureA:getUserData()
+  local entityB = fixtureB:getUserData()
+  if entityA ~= nil then
+    entityA:beginContact()
+  end
+  if entityB ~= nil then
+    entityB:beginContact()
   end
 end
