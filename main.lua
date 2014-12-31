@@ -2,6 +2,7 @@ require "player"
 require "player_controller"
 require "drawing_register"
 require "gun"
+require "boundary"
 
 debugWorldDraw = require("debugWorldDraw")
 
@@ -9,6 +10,7 @@ debugWorldDraw = require("debugWorldDraw")
 function love.load()
   world = love.physics.newWorld(0,0,true)
   drawing_register = DrawingRegister.new()
+  boundary = Boundary.new(700, 800, world)
   gun = Gun.new(world,drawing_register)
   player = Player.new(370,600, world)
   player:attachGun(gun)
