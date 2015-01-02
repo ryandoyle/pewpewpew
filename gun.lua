@@ -5,7 +5,7 @@ function Gun.new(world,drawing_register)
   local self = {}
   self.world = world
   self.drawing_register = drawing_register
-  self.fireRate = 3
+  self.fireRate = 1
   self.fireCount = 0
   self.shape = love.physics.newRectangleShape(10,10)
   self.body = nil
