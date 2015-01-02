@@ -29,3 +29,9 @@ end
 function Boundary:destory()
   -- Can't be destroyed
 end
+
+function Boundary:getDamage()
+  -- Boundary doesn't inflict any damage but we keep the same interface
+  -- for physics objects
+  return 0
+end

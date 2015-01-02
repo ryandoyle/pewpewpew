@@ -3,6 +3,7 @@ Projectile = {}
 function Projectile.new(xStart,yStart,world,drawing_register)
   local self = {}
   self.bulletLength = 10
+  self.damage = 10
   -- FIXME: There is probably a better way to ensure the bodies to not collide than
   -- offsetting the body
   self.body = love.physics.newBody(world, xStart, yStart-self.bulletLength-1, "dynamic")
@@ -14,6 +15,10 @@ function Projectile.new(xStart,yStart,world,drawing_register)
   self.drawing_register = drawing_register
   setmetatable(self, {__index = Projectile})
   return self
+end
+
+function Projectile:getDamage()
+  return self.damage
 end
 
 function Projectile:fire()

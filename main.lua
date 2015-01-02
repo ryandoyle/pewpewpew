@@ -3,6 +3,7 @@ require "player_controller"
 require "drawing_register"
 require "gun"
 require "boundary"
+require "enemy"
 
 debugWorldDraw = require("debugWorldDraw")
 
@@ -13,11 +14,13 @@ function love.load()
   drawing_register = DrawingRegister.new()
   boundary = Boundary.new(700, 800, world)
   gun = Gun.new(world,drawing_register)
-  player = Player.new(370,600, world)
+  player = Player.new(370,600, world, drawing_register)
   player:attachGun(gun)
   playerController = PlayerController.new(player)
+  enemy = Enemy.new(100, 100, world, drawing_register)
 
   drawing_register:addDrawable(player)
+  drawing_register:addDrawable(enemy)
 
   -- HAX
   static = {}
@@ -50,9 +53,9 @@ function beginContact(fixtureA, fixtureB, contact)
   local entityA = fixtureA:getUserData()
   local entityB = fixtureB:getUserData()
   if entityA ~= nil then
-    entityA:beginContact()
+    entityA:beginContact(entityB)
   end
   if entityB ~= nil then
-    entityB:beginContact()
+    entityB:beginContact(entityA)
   end
 end
