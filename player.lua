@@ -4,8 +4,6 @@ function Player.new(x,y,world,drawing_register)
   local self = {}
   self.drawing_register = drawing_register
   self.health = 100
-  self.xSpeed = 1100
-  self.ySpeed = 800
   self.scale = 20
   self.damage = 200
   self.gun = nil
@@ -27,27 +25,7 @@ function Player:draw()
   love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 end
 
-function Player:moveLeft()
-  self:safelySetVelocity(-self.xSpeed,0)
-end
-
-function Player:moveRight()
-  self:safelySetVelocity(self.xSpeed,0)
-end
-
-function Player:moveUp()
-  self:safelySetVelocity(0,-self.ySpeed)
-end
-
-function Player:moveDown()
-  self:safelySetVelocity(0,self.ySpeed)
-end
-
-function Player:stopMovement()
-  self:safelySetVelocity(0,0)
-end
-
-function Player:safelySetVelocity(xVelocity, yVelocity)
+function Player:setVelocity(xVelocity, yVelocity)
   if self.isAlive then
     self.body:setLinearVelocity(xVelocity, yVelocity)
   end

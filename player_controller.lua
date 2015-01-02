@@ -3,6 +3,11 @@ PlayerController = {}
 function PlayerController.new(player)
   local self = {}
   self.player = player 
+  self.xVelocity = 1100
+  self.yVelocity = 800
+  self.currentXVelocity = 0
+  self.currentYVelocity = 0
+  self.acceleration = 100
   setmetatable(self, {__index = PlayerController})
   return self 
 end
@@ -18,20 +23,24 @@ end
 function PlayerController:handleInput(dt)
   if self:movementKeyIsPressed() then
     if love.keyboard.isDown("left") then
-      self.player:moveLeft(dt)
+      self.currentXVelocity = -self.xVelocity
     end
     if love.keyboard.isDown("right") then
-      self.player:moveRight(dt)
+      self.currentXVelocity = self.xVelocity
     end
     if love.keyboard.isDown("up") then
-      self.player:moveUp(dt)
+      self.currentYVelocity = -self.yVelocity
     end
     if love.keyboard.isDown("down") then
-      self.player:moveDown(dt)
+      self.currentYVelocity = self.yVelocity
     end
   else
-    self.player:stopMovement()
+    self.currentYVelocity = 0
+    self.currentXVelocity = 0
   end
+
+  self.player:setVelocity(self.currentXVelocity, self.currentYVelocity)
+
   if love.keyboard.isDown(" ") then
     self.player:shoot()
   end
